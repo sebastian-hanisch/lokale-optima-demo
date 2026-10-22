@@ -50,7 +50,7 @@ def test_verdict_main_triangle_with_the_exact_enumeration():
     assert kind == "success"
     assert text == ("Die Lokalsuche mit der ersten verbessernden Regel endet nach 1 Flip in einem lokalen Optimum: der Schnitt steigt von 0 auf 2. Mehr als Σw = 3 Flips sind nicht möglich; "
                     "ausgeschöpft sind 33,3 % der Schranke. Der Schnitt ist mindestens die Hälfte von Σw (66,7 % von Σw). Aufzählung aller 8 Schnitte: von diesem Start aus sind genau 1 Flip möglich "
-                    "(beste bis schlimmste Pivotregel), die längste Folge von irgendeinem Start hat 1 Flip, es gibt 6 lokale Optima, der größte Schnitt ist 2 (100 % davon erreicht).")
+                    "(günstigste bis ungünstigste Wahl der Flips), die längste Folge von irgendeinem Start hat 1 Flip, es gibt 6 lokale Optima, der größte Schnitt ist 2 (100 % davon erreicht).")
 
 
 def test_verdict_main_plural_range_and_other_rules():

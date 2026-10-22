@@ -243,7 +243,7 @@ def verdict_main(a: Analysis) -> tuple:
     e = a.exact
     span = f"genau {_flips(e.shortest)}" if e.shortest == e.longest else f"{fmt_int(e.shortest)} bis {fmt_int(e.longest)} Flips"
     reached = fmt_percent(Fraction(s.cut_end, e.optimum)) if e.optimum else "100 %"
-    exact = (f" Aufzählung aller {fmt_int(2 ** len(a.w))} Schnitte: von diesem Start aus sind {span} möglich (beste bis schlimmste Pivotregel), "
+    exact = (f" Aufzählung aller {fmt_int(2 ** len(a.w))} Schnitte: von diesem Start aus sind {span} möglich (günstigste bis ungünstigste Wahl der Flips), "
              f"die längste Folge von irgendeinem Start hat {_flips(e.longest_overall)}, es gibt {fmt_int(e.local_optima)} lokale Optima, der größte Schnitt ist {fmt_int(e.optimum)} ({reached} davon erreicht).")
     return "success", head + cut + exact
 
@@ -270,7 +270,7 @@ def verdict_family(res: dict) -> tuple:
     return "info", (
         f"Auf der Familie exp-min brauchen die erste und die schlechteste Regel bei n = {big['n']} im Mittel {fmt_mean(f['first'])} und {fmt_mean(f['worst'])} Flips (Σw = {fmt_int(big['sigma'])}), die beste {fmt_mean(f['best'])} "
         f"und die zufällige {fmt_mean(f['random'])}. Die längste mögliche Folge ist bei allen {len(even)} geraden Größen von n = {even[0]['n']} bis {last['n']} genau 2^(n/2) + n/2 − 2 (bei n = {last['n']}: {fmt_int(last['longest'])}), "
-        f"die Zahl der lokalen Optima 2^(n/2) ({fmt_int(last['local_optima'])}); auf vollständigen Graphen mit Zufallsgewichten ist sie nur rund {fmt_num(float(max(r['per_n2'] for r in rnd)), 2)} · n² "
+        f"die Zahl der lokalen Optima 2^(n/2) ({fmt_int(last['local_optima'])}); auf vollständigen Graphen mit Zufallsgewichten ist sie im gemessenen Bereich (n = {rnd[0]['n']} bis {rnd[-1]['n']}) nur rund {fmt_num(float(max(r['per_n2'] for r in rnd)), 2)} · n² "
         f"(n = {rnd[-1]['n']}: {fmt_int(rnd[-1]['longest'])})."
     )
 

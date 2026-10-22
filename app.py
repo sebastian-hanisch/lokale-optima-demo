@@ -101,7 +101,7 @@ with st.expander("Lokale Suche als Suchproblem", expanded=True):
    **Suchprobleme**; die Klasse **PLS** (polynomial local search) fasst die lokale Suche mit polynomiell bewertbaren Schritten zusammen (Johnson, Papadimitriou und Yannakakis, 1988; Literatur). Für Max-Cut mit Flip gilt
    nach der Literatur PLS-Vollständigkeit (Schäffer und Yannakakis, 1991; Literatur, nicht gemessen).
 2. **Die Schranke Σw.** Weil jeder Flip den ganzzahligen Schnitt um mindestens 1 erhöht und der Schnitt höchstens Σw beträgt, endet jede Folge nach höchstens Σw Flips. Das ist pseudopolynomiell: es wächst mit der Größe der Gewichte.
-3. **Was messen wir?** Wie nahe die Praxis an Σw kommt (meist weit entfernt), welche Pivotregel kurze Wege liefert, und eine explizite Gewichtsfamilie, auf der natürliche Regeln exponentiell lange Wege gehen.
+3. **Was messen wir?** Wie nahe die Praxis an Σw kommt (auf Zufallsgraphen mit größeren Gewichten weit entfernt), welche Pivotregel kurze Wege liefert, und eine explizite Gewichtsfamilie, auf der natürliche Regeln exponentiell lange Wege gehen.
         """
     )
 
@@ -114,7 +114,7 @@ with st.sidebar:
     sidebar_presets()  # Schnellstart oben, das aktive Preset ist hervorgehoben
     st.header("⚙️ Einstellungen")
     n = st.slider("Knoten n", *bounds("n_slider"), key="n_slider", help=f"Die exakte Aufzählung aller 2^n Schnitte läuft nur bis n = {C.EXACT_LIVE_N_MAX}; der Graph wird bis n = {GRAPH_N_MAX} gezeichnet.")
-    family = st.selectbox("Graph", list(C.FAMILIES), format_func=C.FAMILIES.get, key="family_select", help="Die Familie „2^min(i, j)“ ist die gemeine: auf ihr laufen die erste und die schlechteste Regel exponentiell lange.")
+    family = st.selectbox("Graph", list(C.FAMILIES), format_func=C.FAMILIES.get, key="family_select", help="Die Familie „2^min(i, j)“ ist die gemeine: auf ihr wachsen die Flips der ersten und der schlechtesten Regel bei zufälligen Starts im gemessenen Bereich (n ≤ 24) etwa um den Faktor 4 je vier Knoten (2^(n/2)).")
     dens = st.select_slider("Kantendichte in %", options=list(C.DENS_OPTIONS), key="dens_select", help="Nur für den Zufallsgraphen.")
     wmax = st.select_slider("Größtes Gewicht W", options=list(C.WMAX_OPTIONS), format_func=fmt_int, key="wmax_select", help="Nur für den Zufallsgraphen: Gewichte 1 bis W. Σw wächst mit W.")
     rule = st.selectbox("Pivotregel", list(C.RULE_LABELS), format_func=C.RULE_LABELS.get, key="rule_select", help="Welcher verbessernde Flip als nächster genommen wird.")
@@ -142,8 +142,8 @@ m4.metric("Schranke ausgeschöpft", fmt_percent(Fraction(s.flips, a.total)) if a
 if a.exact is not None:
     e = a.exact
     k1, k2, k3, k4 = st.columns(4)
-    k1.metric("Kürzeste mögliche Folge", fmt_int(e.shortest), help="Vom Start aus, bei bester Pivotregel (alle 2^n Schnitte aufgezählt).")
-    k2.metric("Längste mögliche Folge", fmt_int(e.longest), help="Vom Start aus, bei schlimmster Pivotregel.")
+    k1.metric("Kürzeste mögliche Folge", fmt_int(e.shortest), help="Vom Start aus, bei günstigster Wahl der Flips, nicht die Regel „beste“ (alle 2^n Schnitte aufgezählt).")
+    k2.metric("Längste mögliche Folge", fmt_int(e.longest), help="Vom Start aus, bei ungünstigster Wahl der Flips.")
     k3.metric("Lokale Optima", fmt_int(e.local_optima), help="Unter allen 2^n Schnitten.")
     k4.metric("Größter Schnitt", fmt_int(e.optimum), help="Das globale Optimum.")
 vkind, vtext = verdict_main(a)
@@ -166,7 +166,7 @@ if st.session_state.get("pdf_for") == settings:
     st.download_button("⬇️ PDF herunterladen", data=_pdf(settings), file_name="lokale-optima.pdf", mime="application/pdf")
 
 st.markdown("## ❓ Kernfrage: Wie nahe kommt eine Lokalsuche der Schranke, und was entscheidet?")
-st.markdown("Die Schranke Σw ist pseudopolynomiell und bleibt in der Praxis meist weit entfernt; ob die Folge kurz ist, entscheiden die Pivotregel und die Gewichte. Die Experimente messen beides.")
+st.markdown("Die Schranke Σw ist pseudopolynomiell und bleibt auf Zufallsgraphen mit größeren Gewichten weit entfernt; ob die Folge kurz ist, entscheiden die Pivotregel und die Gewichte. Die Experimente messen beides.")
 
 st.markdown("---")
 

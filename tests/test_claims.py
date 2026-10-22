@@ -51,12 +51,18 @@ def test_claim_rule_order_and_weight_dependence(rules):
     assert [ev.fmt_mean(f[k]) for k in ("best", "random", "first", "worst")] == ["29,9", "49,9", "66,2", "353"] and ev.fmt_mean(by[(1000, 80)]["sigma"]) == "788.474"
     assert f["best"] < f["random"] < f["first"] < f["worst"] and by[(1000, 80)]["worst_max"] == 484
     assert [round(float(by[(w, 80)]["flips"]["best"]), 1) for w in (1, 10, 1000)] == [25.8, 29.3, 29.9] and [round(float(by[(w, 80)]["flips"]["worst"]), 1) for w in (1, 10, 1000)] == [96.7, 292.0, 353.2]
+    first = [float(by[(w, 80)]["flips"]["first"]) for w in (1, 10, 1000)]
+    rand = [float(by[(w, 80)]["flips"]["random"]) for w in (1, 10, 1000)]
+    worst = [float(by[(w, 80)]["flips"]["worst"]) for w in (1, 10, 1000)]
+    best = [float(by[(w, 80)]["flips"]["best"]) for w in (1, 10, 1000)]
+    assert [round(x, 1) for x in first] == [49.1, 65.7, 66.2] and [round(x, 1) for x in rand] == [39.9, 48.6, 49.9]
+    assert [round(100 * (x[2] / x[0] - 1)) for x in (best, first, rand)] == [16, 35, 25] and round(worst[2] / worst[0], 1) == 3.7
     text = ev.verdict_rules(rules)[1]
     assert "Über alle 1.200 Graphen und vier Regeln ist der größte Anteil Flips / Σw 47,4 % (n = 10, W = 1)." in text
 
 
 def test_claim_rule_order_holds_in_every_cell_except_random_against_first_at_n_10(rules):
-    """README: in allen 12 Zellen ist die beste Regel die kürzeste und die schlechteste die längste; die zufällige ist ab n = 20 kürzer als die erste, bei n = 10 (alle drei W) knapp länger (z. B. W = 1: 3,13 gegen 3,12)."""
+    """README: in allen 12 Zellen ist die beste Regel die kürzeste und die schlechteste die längste; die zufällige ist ab n = 20 kürzer als die erste, bei n = 10 (alle drei W) ist der Unterschied aus 100 Graphen nicht zu lesen (z. B. W = 1: 3,13 gegen 3,12; die Messung der 100 Graphen zeigt dort die zufällige Regel länger)."""
     for r in rules:
         f = r["flips"]
         assert f["best"] < f["random"] and f["best"] < f["first"] and max(f["random"], f["first"]) < f["worst"], (r["wmax"], r["n"])
