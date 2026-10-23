@@ -69,6 +69,7 @@ Alle Zahlen stehen in `tests/test_claims.py`. Die Messreihen laufen über feste 
 - **PLS-Zugehörigkeit und -Vollständigkeit, die geglättete Analyse und PPAD sind Literatur**, keine Messung der Demo. Die PLS-Vollständigkeit von 2-opt wird **nicht** behauptet.
 - **Die exakte Aufzählung ist klein**: live bis n = 16, in der Messreihe bis n = 18 (2ⁿ Schnitte).
 - **Die Messreihen sind klein** (100 Graphen je Zelle, 20 Starts, 5 Graphen für die exakten Folgen auf Zufallsgewichten): die Mediane und Maxima der Zellen sind Stichproben.
+- **Rundung der Anzeige.** Zahlen werden mit der Formatierung von Python gerundet, die auf der Gleitkommadarstellung beruht: ein Mittelwert, der genau auf eine halbe Stelle fällt, kann auf- oder abgerundet erscheinen (4,85 wird als 4,8 gezeigt). Das betrifft nur die letzte Stelle der Anzeige; die Messwerte selbst sind exakte Brüche.
 
 ## Befunde und Korrekturen gegenüber dem Plan
 
